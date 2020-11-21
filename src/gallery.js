@@ -5,7 +5,8 @@ const refs = {
     lightbox: document.querySelector(".js-lightbox"),
     closeLightboxBtn: document.querySelector('[data-action="close-lightbox"]'),
     lightboxOverlay: document.querySelector(".lightbox__overlay"),
-    lightboxContent: document.querySelector(".lightbox__content")
+    lightboxContent: document.querySelector(".lightbox__content"),
+    lightboxImage: document.querySelector(".lightbox__image")  
 }
 
 // напомнюємо текст HTML по шаблону і додаємо його в ul
@@ -20,11 +21,32 @@ refs.gallery.insertAdjacentHTML('afterbegin', makeHtmlItemGallery)
 // делегування на ul.js-gallery
 refs.gallery.addEventListener("click", clickGallery);
 refs.closeLightboxBtn.addEventListener("click", closeLightbox);
+refs.lightboxOverlay.addEventListener("click", closeLightbox);
+window.addEventListener('keydown', closeByEsc);
+
+
+function clickGallery(event) {
+    event.preventDefault();
+    if (event.target.nodeName !== 'IMG') {return}
+    refs.lightbox.classList.add('is-open');
+    refs.lightboxImage.src = event.target.getAttribute('data-source')
+}
+
+function closeLightbox(event) {
+    refs.lightbox.classList.remove('is-open');
+    refs.lightboxImage.src = ''
+}
+
+function closeByEsc(event) {
+    if (event.keyCode == 27) {
+        //window.close();
+        refs.lightbox.classList.remove('is-open');
+        refs.lightboxImage.src = ''
+      }    
+}
 
 
 
-// модальне вікно  
-refs.lightbox.classList.add('is-open')
 
 
 
