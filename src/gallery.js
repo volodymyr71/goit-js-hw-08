@@ -30,6 +30,7 @@ function clickGallery(event) {
     if (event.target.nodeName !== 'IMG') {return}
     refs.lightbox.classList.add('is-open');
     refs.lightboxImage.src = event.target.getAttribute('data-source')
+    
 }
 
 function closeLightbox(event) {
@@ -39,12 +40,26 @@ function closeLightbox(event) {
 
 function closeByEsc(event) {
     if (event.keyCode == 27) {
-        //window.close();
+        // window.close();
         refs.lightbox.classList.remove('is-open');
         refs.lightboxImage.src = ''
       }    
 }
 
+
+
+
+document.addEventListener('keydown', function(event) {
+    let idx = images.findIndex((item)=> item.original === refs.lightboxImage.src);
+    
+    if (event.keyCode == 37 && idx > 0) {
+        refs.lightboxImage.src = images[idx-1].original
+    }
+
+    else if (event.keyCode == 39 && idx < images.length-1) {        
+        refs.lightboxImage.src = images[idx+1].original
+    }
+});
 
 
 
