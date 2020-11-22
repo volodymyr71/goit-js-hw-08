@@ -23,6 +23,8 @@ refs.gallery.addEventListener("click", clickGallery);
 refs.closeLightboxBtn.addEventListener("click", closeLightbox);
 refs.lightboxOverlay.addEventListener("click", closeLightbox);
 window.addEventListener('keydown', closeByEsc);
+document.addEventListener('keydown', scrollingArrow);
+document.addEventListener('keydown', randomSlide);
 
 
 function clickGallery(event) {
@@ -30,7 +32,6 @@ function clickGallery(event) {
     if (event.target.nodeName !== 'IMG') {return}
     refs.lightbox.classList.add('is-open');
     refs.lightboxImage.src = event.target.getAttribute('data-source')
-    
 }
 
 function closeLightbox(event) {
@@ -40,26 +41,30 @@ function closeLightbox(event) {
 
 function closeByEsc(event) {
     if (event.keyCode == 27) {
-        // window.close();
         refs.lightbox.classList.remove('is-open');
         refs.lightboxImage.src = ''
       }    
 }
 
-
-
-
-document.addEventListener('keydown', function(event) {
+// Функція пролистування слайдів стрілками "вліво - вправо"
+function scrollingArrow(event) {
     let idx = images.findIndex((item)=> item.original === refs.lightboxImage.src);
-    
     if (event.keyCode == 37 && idx > 0) {
         refs.lightboxImage.src = images[idx-1].original
     }
-
     else if (event.keyCode == 39 && idx < images.length-1) {        
         refs.lightboxImage.src = images[idx+1].original
     }
-});
+}
+
+// Функція рандомного вибору слайда клавішою "стрілка вверх"
+function randomSlide(event) {
+    if (event.keyCode == 38) {
+        let randomIdx = Math.floor(Math.random() * images.length);
+        refs.lightboxImage.src = images[randomIdx].original
+    }  
+}
+
 
 
 
