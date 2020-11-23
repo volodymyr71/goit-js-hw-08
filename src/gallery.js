@@ -14,15 +14,10 @@ let makeHtmlItemGallery = "";
 images.forEach((item) => {
   makeHtmlItemGallery =
     makeHtmlItemGallery +
-    '<li class="gallery__item"> <a class="gallery__link" href="' +
-    item.original +
-    '" >  <img class="gallery__image" src="' +
-    item.preview +
-    '" data-source="' +
-    item.original +
-    '" alt="' +
-    item.description +
-    '" /> </a> </li>';
+    `<li class="gallery__item"> <a class="gallery__link" href=" ${item.original}
+    " >  <img class="gallery__image" src="  ${item.preview}  
+    " data-source=" ${item.original}
+    " alt=" ${item.description}  " /> </a> </li>`;
 });
 refs.gallery.insertAdjacentHTML("afterbegin", makeHtmlItemGallery);
 
@@ -30,9 +25,6 @@ refs.gallery.insertAdjacentHTML("afterbegin", makeHtmlItemGallery);
 refs.gallery.addEventListener("click", clickGallery);
 refs.closeLightboxBtn.addEventListener("click", closeLightbox);
 refs.lightboxOverlay.addEventListener("click", closeLightbox);
-window.addEventListener("keydown", closeByEsc);
-document.addEventListener("keydown", scrollingArrow);
-document.addEventListener("keydown", randomSlide);
 
 function clickGallery(event) {
   event.preventDefault();
@@ -41,17 +33,22 @@ function clickGallery(event) {
   }
   refs.lightbox.classList.add("is-open");
   refs.lightboxImage.src = event.target.getAttribute("data-source");
+  window.addEventListener("keydown", closeByEsc);
+  document.addEventListener("keydown", scrollingArrow);
+  document.addEventListener("keydown", randomSlide);
 }
 
-function closeLightbox(event) {
+function closeLightbox() {
   refs.lightbox.classList.remove("is-open");
   refs.lightboxImage.src = "";
+  window.removeEventListener("keydown", closeByEsc);
+  document.removeEventListener("keydown", scrollingArrow);
+  document.removeEventListener("keydown", randomSlide);
 }
 
 function closeByEsc(event) {
   if (event.keyCode == 27) {
-    refs.lightbox.classList.remove("is-open");
-    refs.lightboxImage.src = "";
+    closeLightbox();
   }
 }
 
